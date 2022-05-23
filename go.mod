@@ -1,4 +1,4 @@
-module github.com/add-prefix-to-files
+module github.com/go-prefix
 
 go 1.18
 
