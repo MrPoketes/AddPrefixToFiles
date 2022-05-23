@@ -12,7 +12,6 @@ require (
 )
 
 require (
-	fyne.io/fyne v1.4.3
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20220516021902-eb3e265c7661 // indirect
