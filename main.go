@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -19,6 +20,19 @@ func main() {
 	} else {
 		sortByTime(files)
 		applyFunction(files, path, function)
+
+	}
+}
+
+// Helper function
+func changeModTime(files []fs.DirEntry) {
+	tick := time.Tick(time.Millisecond)
+	for _, file := range files {
+		<-tick
+		err := os.Chtimes("actual/"+file.Name(), time.Now(), time.Now())
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -56,7 +70,18 @@ func sortByTime(files []fs.DirEntry) {
 		if errJ != nil {
 			panic(errJ)
 		}
-
 		return infoI.ModTime().Before(infoJ.ModTime())
 	})
+}
+
+// Helper function
+func sortByName(files []fs.DirEntry) []fs.DirEntry {
+	sortedFiles := make([]fs.DirEntry, len(files))
+	copy(sortedFiles, files)
+	sort.Slice(sortedFiles, func(i, j int) bool {
+		iNum, _ := strconv.Atoi(strings.SplitN(sortedFiles[i].Name(), ".", 2)[0])
+		jNum, _ := strconv.Atoi(strings.SplitN(sortedFiles[j].Name(), ".", 2)[0])
+		return iNum < jNum
+	})
+	return sortedFiles
 }
